@@ -1,0 +1,261 @@
+### 什么是哈希表
+
+哈希表有几个重要的概念，即key、value和hash fucntion，他们分别表示键、值以及哈希函数，从应用的角度来说，其实就是通过哈希函数快速找到key或key所对应的value，一张图即可说明：
+
+![hashtable-data-structure](images/hashtable-data-structure.png)
+
+### 为什么需要哈希表
+
+关于为什么需要哈希表，我这里截取了一段stackoverflow上网友的回答(https://stackoverflow.com/questions/901034/why-we-use-hash-code-in-hashtable-instead-of-an-index/901052#901052)，我觉得写的很不错：
+
+> Basically, hash functions use some generic function to digest data and generate a fingerprint (and integer number here) for that data. Unlike an index, this fingerprint depends ONLY on the data, and should be free of any predictable ordering based on the data. Any change to a single bit of the data should also change the fingerprint considerably.
+>
+> This fingerprint can then be used as an index to an array (or arraylist) of stored values. Because the fingerprint is dependent only on the data, you can compute a hash for something and just check the array element for that hash value to see if it has been stored already. 
+
+其中一个常见的例子，比如说我们要通过网络给对方发送一个比较大的文件，对方在接收文件后，如何确保文件在网络传输的过程中没有被有意或恶意的篡改，比如数据丢失等等，其中一个方法就是双方用md5值来校验文件，发送文件时携带md5，接收方在收到文件后重新计算文件的md5值，以此完成文件内容一致性的校验，这也是sha256算法的一种应用场景，那么这里双方关注的是数据内容的一致性。
+
+再比如说，如果我们的一个系统里边，存放几千万的用户数据，这些数据里边存放着用户的一些信息，比如手机号或者身份证，以及其他的一些结构化信息，如果我们想要通过手机号或者身份证号快速查询用户是否存在或者检索用户对应的属性数据，在这种情况下，我们当然希望查询的速度越快越好，可是这类的数据(身份证、手机号)并非是连续的数据，如果你准备拿用户的身份证或手机号放在类似一维的数组里，那这个数据量是非常吓人的，其中一种解决方案就是将用户的身份证或手机号通过哈希函数映射到数组下标里，这样我们的查询操作可以达到o(1)，空间上也是相对来说比较能接受的。
+
+### 哈希表在工程实践上遇到的问题
+
+其实哈希表是一种很好的数据结构，我们在工程化里用的也比较多，比如c++里的unordered_map/unordered_set，以及java里的hash map等等，都是哈希表的一些经典案例，但是通过上面的描述，其实也很容易发现，哈希函数映射后的索引是会发生冲突的，也就是常说的哈希冲突(hash collision)。
+
+一般的，工程上解决哈希冲突的方法有很多，大体上也就两种思路:一种是拉链，也就是当发生哈希冲突后，在冲突后的索引后以链表的方式追加数据；另外一种就是增加一定的冗余数据，用于存放出现哈希冲突后的数据或者节点。
+
+那么接下来想通过阅读java源码的方式，一方面希望直观的了解一下java里的哈希表是怎么实现的，另外一方面也是看一下java的哈希表是怎么处理哈希冲突的。
+
+
+
+### java HashMap源码剖析
+
+我使用的是jdk8的版本，是比较新的java代码，而我们要看的代码文件是在HashMap.class。
+
+- 大体轮廓
+
+在分析源码之前，先来看下面的一行代码：
+
+```java
+/**
+ * The table, initialized on first use, and resized as
+ * necessary. When allocated, length is always a power of two.
+ * (We also tolerate length zero in some operations to allow
+ * bootstrapping mechanics that are currently not needed.)
+ */
+transient Node<K,V>[] table;
+```
+
+其实从这行代码可以看出来，其内部是一个一维的数组，存储的元素是Node类型，也就是上文所说用于存储key和value的结构体，下面是截取的Node的部分定义：
+
+```java
+    static class Node<K,V> implements Map.Entry<K,V> {
+        final int hash;
+        final K key;
+        V value;
+        Node<K,V> next;
+        ....
+```
+
+这样的话我们对HashMap就有了一个大体的轮廓上的了解。
+
+其次，还有一处细节需要注意一下，是TREEIFY_THRESHOLD和UNTREEIFY_THRESHOLD字段：
+
+```java
+/**
+ * The bin count threshold for using a tree rather than list for a
+ * bin.  Bins are converted to trees when adding an element to a
+ * bin with at least this many nodes. The value must be greater
+ * than 2 and should be at least 8 to mesh with assumptions in
+ * tree removal about conversion back to plain bins upon
+ * shrinkage.
+ */
+static final int TREEIFY_THRESHOLD = 8;
+
+/**
+ * The bin count threshold for untreeifying a (split) bin during a
+ * resize operation. Should be less than TREEIFY_THRESHOLD, and at
+ * most 6 to mesh with shrinkage detection under removal.
+ */
+static final int UNTREEIFY_THRESHOLD = 6;
+```
+
+其实可以这么理解，当在同一个位置出现的哈希冲突过于频繁，为防止退化为单链表(数据量大时，查询效率会变为o(n))，这里会把单链表进行treeify，变成一棵平衡树，好处就是可以提升查询速度，与此同时带来的代价就是要多一些存储数据，所以在节点数据较小时，比如经过几次remove，又会从平衡树变为单链表。
+
+接下里有几个函数需要重点关注一下，它们是：
+
+```java
+V put(K key, V value)
+V get(Object key)
+V remove(Object key)
+Boolean containsKey(Object key)
+```
+
+那我们依次来看一下它们的源码。
+
+- V put(K key, V value)
+
+首先是put函数，在put函数内部是调用了putVal，所以我们直接看putVal这个函数就可以：
+
+```java
+final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
+               boolean evict) {
+    Node<K,V>[] tab; Node<K,V> p; int n, i;
+    if ((tab = table) == null || (n = tab.length) == 0)
+        n = (tab = resize()).length;
+    
+    /*
+    下面这行代码是通过哈希函数找key对应的索引，如果发现这个索引没有被占用，
+    那么就直接new一个node，放在这个索引的位置
+    */
+    if ((p = tab[i = (n - 1) & hash]) == null)
+        tab[i] = newNode(hash, key, value, null);
+    else {
+        // 代码走到这个分支，就说明发生哈希冲突了
+        Node<K,V> e; K k;
+        if (p.hash == hash &&
+            ((k = p.key) == key || (key != null && key.equals(k))))
+            e = p;
+        // 下面这行代码就是非常有意思的，它会判断这个结构是树还是链表，下面会详细描述
+        else if (p instanceof TreeNode) // 走这个分支，说明是一个树，其底层是红黑树
+            e = ((TreeNode<K,V>)p).putTreeVal(this, tab, hash, key, value);
+        else {  //如果走这个分支，则说明是链表，那么只需要遍历到链表尾部，插入这个新节点，即可
+            for (int binCount = 0; ; ++binCount) {
+                if ((e = p.next) == null) {
+                    p.next = newNode(hash, key, value, null);
+                    //下面的一行代码也是很关键的代码，它表示当链表节点节点超过一定数量，就开始将链表转换为红黑树
+                    if (binCount >= TREEIFY_THRESHOLD - 1) // -1 for 1st
+                        treeifyBin(tab, hash);
+                    break;
+                }
+                if (e.hash == hash &&
+                    ((k = e.key) == key || (key != null && key.equals(k))))
+                    break;
+                p = e;
+            }
+        }
+        if (e != null) { // existing mapping for key
+            V oldValue = e.value;
+            if (!onlyIfAbsent || oldValue == null)
+                e.value = value;
+            afterNodeAccess(e);
+            return oldValue;
+        }
+    }
+    ++modCount;
+    if (++size > threshold)
+        resize();
+    afterNodeInsertion(evict);
+    return null;
+}
+```
+
+上面的一个函数里，有几行代码是比较有意思的：当通过哈希函数找到key所对应的数组下标，且发现下标已经有节点占用，这时说明出现哈希碰撞了，这个时候它的内部是使用链表的方式，将新节点插入到链表尾部。
+
+但是这样做有一个问题，如果在同样的位置发生n次哈希碰撞，那么就会退化成单链表，也就是会让查询的速度变成o(n)，所以说java的HashMap在这个地方也做了一定的优化，它是会检测当哈希碰撞的次数超过一定数量时，会将单链表转换为红黑树，这样的查询的速度可以从o(n)提升到o(logn)。
+
+
+
+- V get(Object key)
+
+get内部是调用了getNode函数，所以我们直接看getNode函数：
+
+```java
+final Node<K,V> getNode(int hash, Object key) {
+    Node<K,V>[] tab; Node<K,V> first, e; int n; K k;
+    if ((tab = table) != null && (n = tab.length) > 0 &&
+        (first = tab[(n - 1) & hash]) != null) {
+        if (first.hash == hash && // always check first node
+            ((k = first.key) == key || (key != null && key.equals(k))))
+            return first;
+        if ((e = first.next) != null) {
+            // 这里的逻辑跟上面的putVal的逻辑基本是一致的，也就是会去红黑树或者单链表里查找有没有这样的节点
+            if (first instanceof TreeNode)
+                return ((TreeNode<K,V>)first).getTreeNode(hash, key);
+            do {
+                if (e.hash == hash &&
+                    ((k = e.key) == key || (key != null && key.equals(k))))
+                    return e;
+            } while ((e = e.next) != null);
+        }
+    }
+    return null;
+}
+```
+
+getNode这个节点其实和上面的putVal的逻辑很相似，所以基本上看代码和注释基本就能明白了，逻辑也比较简单：先根据哈希函数找到key所对应的数组下标，先检查一下这个下标元素的节点是不是我们要查找的，如果不是的话，继续从红黑树或者单链表里查找节点。
+
+
+
+- V remove(Object key)
+
+remove内部调用过来removeNode，所以也是一样直接看removeNode函数
+
+```java
+final Node<K,V> removeNode(int hash, Object key, Object value,
+                           boolean matchValue, boolean movable) {
+    Node<K,V>[] tab; Node<K,V> p; int n, index;
+    if ((tab = table) != null && (n = tab.length) > 0 &&
+        (p = tab[index = (n - 1) & hash]) != null) {
+        Node<K,V> node = null, e; K k; V v;
+        
+        // 下面这几行是在 查找这个节点对应的位置：要么就是索引下标，要么就是在红黑树，或者就是在单链表里
+        if (p.hash == hash &&
+            ((k = p.key) == key || (key != null && key.equals(k))))
+            node = p;
+        else if ((e = p.next) != null) {
+            if (p instanceof TreeNode)
+                node = ((TreeNode<K,V>)p).getTreeNode(hash, key);
+            else {
+                do {
+                    if (e.hash == hash &&
+                        ((k = e.key) == key ||
+                         (key != null && key.equals(k)))) {
+                        node = e;
+                        break;
+                    }
+                    p = e;
+                } while ((e = e.next) != null);
+            }
+        }
+        
+        //找到了节点的位置，就开始删除，也是分成三种情况：索引下标、红黑树、单链表
+        if (node != null && (!matchValue || (v = node.value) == value ||
+                             (value != null && value.equals(v)))) {
+            if (node instanceof TreeNode)
+                ((TreeNode<K,V>)node).removeTreeNode(this, tab, movable);
+            else if (node == p)
+                tab[index] = node.next;
+            else
+                p.next = node.next;
+            ++modCount;
+            --size;
+            afterNodeRemoval(node);
+            return node;
+        }
+    }
+    return null;
+}
+```
+
+
+
+- Boolean containsKey(Object key)
+
+```java
+public boolean containsKey(Object key) {
+    return getNode(hash(key), key) != null;
+}
+```
+
+这个函数比较简单，就是调用了上面的getNode的接口。
+
+
+
+### 总结
+
+我们回顾了哈希表的定义、应用场景以及工程上遇到的哈希冲突的问题，最后我们通过阅读java HashMap源码的方式直观的了解了HashMap的实现原理以及它在处理哈希冲突的解决方案，其实我们还可以再学习一下redis是玩哈希的，等后面有时间我们再来研究一下。
+
+
+
+### 参考资料
+[http://coding-geek.com/how-does-a-hashmap-work-in-java/](http://coding-geek.com/how-does-a-hashmap-work-in-java/)
+
