@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="description" content="这里是 周海军 的个人博客">
+    <meta name="keywords" content="周海军, Fusha, navy, @navy, 周海军的博客, Fusha Blog, 博客, 个人网站, 互联网, 后端, 设计">
+    <meta name="theme-color" content="#000000">
+
+    <!-- Open Graph -->
+    <meta property="og:title"
+        content="C++ cast操作符 - 孚沙的博客 | Fusha Blog">
+    
+    <meta property="og:type" content="article">
+    <meta property="og:description" content="c++里支持四种cast操作符，它们分别是：
+">
+    
+    <meta property="article:published_time" content=" 2021-05-16T05:30:00Z">
+    
+    
+    <meta property="article:author" content="zhouhaijun">
+    
+    
+    <meta property="article:tag" content="c++">
+    
+    
+    <meta property="og:image" content="http://localhost:4000">
+    <meta property="og:url" content="http://localhost:4000/2021/05/16/cpp-casts/">
+    <meta property="og:site_name" content="孚沙的博客 | Fusha Blog">
+
+    <title>C++ cast操作符 - 孚沙的博客 | Fusha Blog</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="http://localhost:4000/2021/05/16/cpp-casts/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href=" /css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href=" /css/hux-blog.min.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet"
+        type="text/css">
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+
+    <!-- Google AdSense -->
+    <script data-ad-client="ca-pub-6487568398225121" async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top invert">
+    
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Fusha Blog</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div id="huxblog_navbar">
+                <div class="navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="/">Home</a>
+                        </li>
+                        
+                        
+                        
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                        
+                        
+                        <li>
+                            <a href="/archive/">Archive</a>
+                        </li>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <li class="search-icon">
+                            <a href="javascript:void(0)">
+                                <i class="fa fa-search"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <script>
+        // Drop Bootstarp low-performance Navbar
+        // Use customize navbar with high-quality material design animation
+        // in high-perf jank-free CSS3 implementation
+        var $body = document.body;
+        var $toggle = document.querySelector('.navbar-toggle');
+        var $navbar = document.querySelector('#huxblog_navbar');
+        var $collapse = document.querySelector('.navbar-collapse');
+
+        var __HuxNav__ = {
+            close: function () {
+                $navbar.className = " ";
+                // wait until animation end.
+                setTimeout(function () {
+                    // prevent frequently toggle
+                    if ($navbar.className.indexOf('in') < 0) {
+                        $collapse.style.height = "0px"
+                    }
+                }, 400)
+            },
+            open: function () {
+                $collapse.style.height = "auto"
+                $navbar.className += " in";
+            }
+        }
+
+        // Bind Event
+        $toggle.addEventListener('click', function (e) {
+            if ($navbar.className.indexOf('in') > 0) {
+                __HuxNav__.close()
+            } else {
+                __HuxNav__.open()
+            }
+        })
+
+        /**
+         * Since Fastclick is used to delegate 'touchstart' globally
+         * to hack 300ms delay in iOS by performing a fake 'click',
+         * Using 'e.stopPropagation' to stop 'touchstart' event from 
+         * $toggle/$collapse will break global delegation.
+         * 
+         * Instead, we use a 'e.target' filter to prevent handler
+         * added to document close HuxNav.  
+         *
+         * Also, we use 'click' instead of 'touchstart' as compromise
+         */
+        document.addEventListener('click', function (e) {
+            if (e.target == $toggle) return;
+            if (e.target.className == 'icon-bar') return;
+            __HuxNav__.close();
+        })
+    </script>
+    <!-- Search -->
+<div class="search-page">
+  <div class="search-icon-close-container">
+    <span class="search-icon-close">
+      <i class="fa fa-chevron-down"></i>
+    </span>
+  </div>
+  <div class="search-main container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <form></form>
+        <input type="text" id="search-input" placeholder="$ grep...">
+        </form>
+        <div id="search-results" class="mini-post-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/home-bg.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+
+
+
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/home-bg.jpg');
+        background: ;
+    }
+
+    
+</style>
+
+<header class="intro-header style-text" >
+
+    <div class="header-mask"></div>
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/archive/?tag=c%2B%2B" title="c++">c++</a>
+                        
+                    </div>
+                    <h1>C++ cast操作符</h1>
+                    
+                    <h2 class="subheading">C++ casts</h2>
+                    <span class="meta">Posted by zhouhaijun on May 16, 2021</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <!-- Multi-Lingual -->
+                
+
+				<p>c++里支持四种cast操作符，它们分别是：</p>
+
+<ul>
+  <li>const_cast</li>
+  <li>reinterpret_cast</li>
+  <li>static_cast</li>
+  <li>dynamic_cast</li>
+</ul>
+
+<h3 id="const_cast">const_cast</h3>
+
+<p>const_cast是用于去除指针或引用的const属性，且该指针或引用指向的是非const变量(这一点非常重要)，比如下面的这段代码:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="rouge-code"><pre>    <span class="kt">int</span> <span class="n">value</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+    <span class="k">const</span> <span class="kt">int</span><span class="o">&amp;</span> <span class="n">ref</span> <span class="o">=</span> <span class="n">value</span><span class="p">;</span>
+    <span class="k">const</span> <span class="kt">int</span><span class="o">*</span> <span class="n">ptr</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">value</span><span class="p">;</span>
+
+    <span class="c1">// 下面的两行代码，编译器会抱怨：变量是只读，不能修改</span>
+    <span class="o">*</span><span class="n">ptr</span> <span class="o">=</span> <span class="mi">200</span><span class="p">;</span> 
+    <span class="n">ref</span> <span class="o">=</span> <span class="mi">500</span><span class="p">;</span>
+
+    <span class="c1">// 在使用const_cast去除变量或引用的const属性后，下面的2行代码可以正常运行</span>
+    <span class="o">*</span><span class="k">const_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">ptr</span><span class="p">)</span> <span class="o">=</span> <span class="mi">200</span><span class="p">;</span>
+    <span class="k">const_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&amp;&gt;</span><span class="p">(</span><span class="n">ref</span><span class="p">)</span> <span class="o">=</span> <span class="mi">500</span><span class="p">;</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>当然有时也会在项目代码里见到const_cast的滥用，比如：</p>
+
+<ul>
+  <li>在类的const成员函数内部，使用const_cast修改类数据</li>
+</ul>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="rouge-code"><pre><span class="k">class</span> <span class="nc">Worker</span> <span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="n">Worker</span><span class="p">(</span><span class="kt">int</span> <span class="n">s</span><span class="p">)</span> <span class="o">:</span> <span class="n">salary</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="p">{};</span>
+
+    <span class="c1">// getSalary是一个const成员函数，在该函数内部使用const_cast修改类数据</span>
+    <span class="kt">int</span> <span class="n">getSalary</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+        <span class="k">const_cast</span><span class="o">&lt;</span><span class="n">Worker</span><span class="o">*&gt;</span><span class="p">(</span><span class="k">this</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">salary</span> <span class="o">+=</span> <span class="mi">100</span><span class="p">;</span>
+        <span class="k">return</span> <span class="n">salary</span><span class="p">;</span>
+    <span class="p">}</span> 
+<span class="nl">private:</span>
+    <span class="kt">int</span> <span class="n">salary</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+<span class="p">};</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>一般地，我们以const声明类函数，表明该函数不会对类数据做修改，但在上述代码里，使用const_cast去除了this指针的const属性，最终表现出行为与约定不一致的现象，类似上述的代码应尽量的避免，违背了const_cast的设计初衷。</p>
+
+<ul>
+  <li>不正确的const_cast使用，使得原本不可修改的const变量出现逻辑泄漏，比如下面这段代码：</li>
+</ul>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="rouge-code"><pre><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">inc</span><span class="p">(</span><span class="kt">int</span><span class="o">*</span> <span class="n">pVal</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span><span class="o">*</span><span class="n">pVal</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">const</span> <span class="kt">int</span> <span class="n">value</span>  <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+    <span class="c1">// 使用const_cast去除指向变量value的指针的const属性，进而使value的const属性失效</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">inc</span><span class="p">(</span><span class="k">const_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">*&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">value</span><span class="p">))</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>上述的这段代码，会使得const变量的特性(不可修改性)出现泄漏，应该避免写上述的代码。</p>
+
+<p>这里需要注意的是，如果项目代码里出现类似上述的代码逻辑，要从代码设计的角度找找原因。</p>
+
+<h3 id="reinterpret_cast">reinterpret_cast</h3>
+
+<p>其中reinterpret_cast，如字面意思所述，是不带任何智能行为的类型转换操作，它就等同于c语言的类型强转，威力比较大，但同时也很危险。除非我们真正知道我们要干什么，否则不要轻易使用。</p>
+
+<p>它一般是用于跟字节流相关的操作，比如对网络协议字节流的反序列化、序列化等。</p>
+
+<h3 id="static_cast">static_cast</h3>
+
+<p>static_cast会在程序编译期间对类型转换做安全检查，防止不必要的错误发生，有几个常用的应用场景：</p>
+
+<ul>
+  <li>不同类型指针之间的相互转换</li>
+</ul>
+
+<p>比如说当我们将int指针转换为char指针时，使用c style的类型强转和reinterpret_cast，编译器都不会报错，但在程序运行时可能会出现程序越界错误，但如果使用static_cast，编译器在程序编译期间就提示你错误，所以在这种场景下使用static_cast会更安全一些，代码如下：</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>    <span class="kt">char</span> <span class="n">ch</span> <span class="o">=</span> <span class="sc">'A'</span><span class="p">;</span>
+    <span class="kt">int</span><span class="o">*</span> <span class="n">c_style_p</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">ch</span><span class="p">;</span> <span class="c1">// 编译可以通过</span>
+    <span class="kt">int</span><span class="o">*</span> <span class="n">cpp_style_p</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">*&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ch</span><span class="p">);</span> <span class="c1">// 编译不能通过，编译器会检测出错误</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<ul>
+  <li>类之间的转换</li>
+</ul>
+
+<p>类之间的转换分为两种：一种是具备血缘关系的类之间的转换，也就是子类与父类之间的转换；另一种是不具备血缘关系的类之间的转换。</p>
+
+<p>不具备血缘关系的类一般是没有必要做转换的，如果真遇到了这种情况，那肯定是代码设计的有问题，或者还有一种可能就是代码不小心被写错了，比如像下面的代码中的错误，这时如果使用static_cast也会给你检测出来：</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre></td><td class="rouge-code"><pre><span class="k">class</span> <span class="nc">Foo</span> <span class="p">{};</span>
+<span class="k">class</span> <span class="nc">Bar</span> <span class="p">{};</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Foo</span> <span class="n">foo</span><span class="p">;</span>
+    <span class="cm">/*
+    Foo与Bar是两个不同的类，不具备不存在类型转换的条件，如果你用c式的类型强转，一不小心就写出了一个bug，
+    但如果你用static_cast，程序在编译期间就可以捕获错误：
+    error: invalid static_cast from type ‘Foo*’ to type ‘Bar*’
+    */</span>
+    <span class="n">Bar</span><span class="o">*</span> <span class="n">c_style_pBar</span> <span class="o">=</span> <span class="p">(</span><span class="n">Bar</span><span class="o">*</span><span class="p">)(</span><span class="o">&amp;</span><span class="n">foo</span><span class="p">);</span> <span class="c1">// c语言的类型转换，不安全，在c++不推荐这么写</span>
+    <span class="n">Bar</span><span class="o">*</span> <span class="n">cpp_style_pBar</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">Bar</span><span class="o">*&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">foo</span><span class="p">);</span> 
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>具备血缘关系的类之间的转换会有两种：一种是从子类转换为父类，也叫upcasting；另外一种是从父类转换为子类，也叫downcasting。</p>
+
+<p>类的upcasting是我们在工作和学习中遇到的大多数场景，而类的downcasting遇到的很少，一般也尽量避免这种用法，但也有特殊的场景，下面在dynamic_cast会说到，所以这里我们把焦点放在子类向父类转换的场景。</p>
+
+<p>我们都知道，子类继承父类有两种方式：一种是公共继承，另外一种是私有继承(关于公共继承与私有继承的区别，我之前写过一篇文章《C++语言公共继承与私有继承的区别》)。那么这两种不同的继承方式在类之间的转换时也会有不一样的行为，我们用一段代码来体现：</p>
+
+<ul>
+  <li>代码片段一</li>
+</ul>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="rouge-code"><pre><span class="k">class</span> <span class="nc">Base</span> <span class="p">{};</span>
+<span class="k">class</span> <span class="nc">Derived</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Base</span> <span class="p">{};</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Derived</span> <span class="n">d</span><span class="p">;</span>
+    <span class="n">Base</span><span class="o">*</span> <span class="n">c_style_pB</span> <span class="o">=</span> <span class="p">(</span><span class="n">Base</span><span class="o">*</span><span class="p">)(</span><span class="o">&amp;</span><span class="n">d</span><span class="p">);</span>
+    <span class="n">Base</span><span class="o">*</span> <span class="n">cpp_style_pB</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">Base</span><span class="o">*&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">d</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<ul>
+  <li>代码片段二</li>
+</ul>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="rouge-code"><pre><span class="k">class</span> <span class="nc">Base</span> <span class="p">{};</span>
+<span class="k">class</span> <span class="nc">Derived</span> <span class="o">:</span> <span class="k">private</span> <span class="n">Base</span> <span class="p">{};</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Derived</span> <span class="n">d</span><span class="p">;</span>
+    <span class="n">Base</span><span class="o">*</span> <span class="n">c_style_pB</span> <span class="o">=</span> <span class="p">(</span><span class="n">Base</span><span class="o">*</span><span class="p">)(</span><span class="o">&amp;</span><span class="n">d</span><span class="p">);</span>
+    <span class="n">Base</span><span class="o">*</span> <span class="n">cpp_style_pB</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">Base</span><span class="o">*&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">d</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>上面两段代码唯一的区别就在于继承方式不一样：片段一采用公共继承，片段二采用私有继承，当编译程序时，片段一没有问题，但编译器会对片段二的代码发出抱怨：</p>
+
+<blockquote>
+  <p>error: ‘Base’ is an inaccessible base of ‘Derived’</p>
+</blockquote>
+
+<p>其原因就在于私有继承的方式使得Derived与Base的关系变为has-a，两个类已经不再是is-a的关系，换言之，两个类之间不再具备类型转换的前提，所以使用static_cast时编译器就会帮你检测出错误，那么也算是一种比较安全的方式。</p>
+
+<h3 id="dynamic_cast">dynamic_cast</h3>
+
+<p>在介绍dynamic_cast之前，先了解一下RTTI(run time type identification)，RTTI是一种c++的运行时机制，它可以通过typeid和dynamic_cast获取运行时的内存对象的实际类型，写的有点饶，还是放一个英文的定义：</p>
+
+<blockquote>
+  <p>RTTI allows programs that use pointers or references to base classes to retrieve the actual derived types of the objects to which these pointers or references refer.</p>
+
+  <p>RTTI is provided through two operators:</p>
+
+  <p>The typeid operator, which returns the actual type of the object referred to by a pointer (or a reference).</p>
+
+  <p>The dynamic_cast operator, which safely converts from a pointer (or reference) to a base type to a pointer (or reference) to a derived type.</p>
+</blockquote>
+
+<p>虽然有了上述的定义，但还是不够具体，我们这次来模拟一个应用场景：</p>
+
+<ul>
+  <li>定义一组接口，假设接口的名称是Animal，并实现其中的一个接口，其接口签名为void Eat()；</li>
+  <li>根据上述接口，给出一个具体的接口实现：Cat；</li>
+</ul>
+
+<p>代码也比较简单，使用c++的虚函数就能解决：</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+</pre></td><td class="rouge-code"><pre><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Animal</span> <span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">Eat</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"animal is eating.."</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">class</span> <span class="nc">Cat</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Animal</span> <span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">Eat</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Cat is eating.."</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="n">Animal</span><span class="o">*</span> <span class="nf">makeCat</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="n">Cat</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Animal</span><span class="o">*</span> <span class="n">a</span> <span class="o">=</span> <span class="n">makeCat</span><span class="p">();</span>
+    <span class="n">a</span><span class="o">-&gt;</span><span class="n">Eat</span><span class="p">();</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>但如果这时，我们的业务层来了一个新的需求：</p>
+
+<ul>
+  <li>不改动原有Cat的接口实现层逻辑；</li>
+  <li>新增一个接口实现层：Dog，且该实现层内部新增一个接口Bark；</li>
+  <li>在业务层调用完Eat接口，如果发现是Dog的实现层，还需要调用一下Dog内部的Bark接口；</li>
+</ul>
+
+<p>那么只要在原有的代码上稍作修改就可以了，完整的代码如下：</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+</pre></td><td class="rouge-code"><pre><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Animal</span> <span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">Eat</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"animal is eating.."</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">class</span> <span class="nc">Dog</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Animal</span> <span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">Eat</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Dog is eating.."</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>    
+
+    <span class="kt">void</span> <span class="n">Bark</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Dog is Barking.."</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">class</span> <span class="nc">Cat</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Animal</span> <span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">Eat</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Cat is eating.."</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+
+<span class="p">};</span>
+
+<span class="n">Animal</span><span class="o">*</span> <span class="nf">makeAnimal</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">rand</span><span class="p">()</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="n">Dog</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="n">Cat</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// 模拟业务层</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="n">i</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">Animal</span><span class="o">*</span> <span class="n">a</span> <span class="o">=</span> <span class="n">makeAnimal</span><span class="p">();</span>
+        <span class="n">a</span><span class="o">-&gt;</span><span class="n">Eat</span><span class="p">();</span>
+		
+        <span class="c1">// 重点在这里，dynamic_cast会检测a指针所指向的实际类型，如果与要转换的类型Dog*一致，则返回实际指针，否则返回空指针</span>
+        <span class="n">Dog</span><span class="o">*</span> <span class="n">pDog</span> <span class="o">=</span> <span class="k">dynamic_cast</span><span class="o">&lt;</span><span class="n">Dog</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">pDog</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">pDog</span><span class="o">-&gt;</span><span class="n">Bark</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>通过上述的场景模拟，我们不难发现dynamic_cast与上面的static_cast、reinterpret_cast都不太一样，它是是一种运行时的内存对象检测，也就是说在程序运行时检测内存对象的类型转换：如果转换成功，返回实际的内存对象指针或引用，否则返回空指针或抛出异常。</p>
+
+<h3 id="总结">总结</h3>
+
+<p>const_cast是用于去除指针或引用的const属性，但需要合理使用，避免出现const的逻辑泄漏；</p>
+
+<p>reinterpret_cast等同于c语言里的类型强转，不带类型检查的傻瓜式操作，威力大但也比较危险，使用时要慎重；</p>
+
+<p>static_cast相比reinterpret_cast而言，在程序编译期间会对类型转换做安全检查，也是我们在工作和学习中用的相对比较多的一种语法；</p>
+
+<p>dynamic_cast则是一种运行时类型检查技术，是RTTI实现的一种技术手段，一般是配合c++ 虚函数和多态使用。</p>
+
+<h3 id="参考资料">参考资料</h3>
+
+<ul>
+  <li>
+    <p>const_cast</p>
+
+    <p><a href="https://www.geeksforgeeks.org/const_cast-in-c-type-casting-operators/">https://www.geeksforgeeks.org/const_cast-in-c-type-casting-operators/</a></p>
+
+    <p><a href="https://stackoverflow.com/questions/19554841/how-to-use-const-cast">https://stackoverflow.com/questions/19554841/how-to-use-const-cast</a></p>
+  </li>
+  <li>
+    <p>reinterpret_cast</p>
+
+    <p><a href="https://www.geeksforgeeks.org/reinterpret_cast-in-c-type-casting-operators/">https://www.geeksforgeeks.org/reinterpret_cast-in-c-type-casting-operators/</a></p>
+  </li>
+  <li>
+    <p>static_cast</p>
+
+    <p><a href="https://www.geeksforgeeks.org/static_cast-in-c-type-casting-operators/">https://www.geeksforgeeks.org/static_cast-in-c-type-casting-operators/</a></p>
+  </li>
+  <li>
+    <p>dynamic_cast</p>
+
+    <p><a href="https://stackoverflow.com/questions/2253168/dynamic-cast-and-static-cast-in-c">https://stackoverflow.com/questions/2253168/dynamic-cast-and-static-cast-in-c</a></p>
+
+    <p><a href="https://www.bogotobogo.com/cplusplus/dynamic_cast.php">https://www.bogotobogo.com/cplusplus/dynamic_cast.php</a></p>
+  </li>
+  <li>
+    <p>RTTI</p>
+
+    <p><a href="https://en.m.wikipedia.org/wiki/Run-time_type_information">https://en.m.wikipedia.org/wiki/Run-time_type_information</a></p>
+  </li>
+</ul>
+
+
+
+                <hr style="visibility: hidden;">
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2021/05/12/climb-stair-algorithm/" data-toggle="tooltip" data-placement="top" title="爬楼梯问题的几种算法实现">
+                        Previous<br>
+                        <span>爬楼梯问题的几种算法实现</span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2021/06/03/cpu-cache/" data-toggle="tooltip" data-placement="top" title="对cpu cache的理解">
+                        Next<br>
+                        <span>对cpu cache的理解</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <hr style="visibility: hidden;">
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+                
+            </div>  
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+
+<section>
+    
+        <hr class="hidden-sm hidden-xs">
+    
+    <h5><a href="/archive/">FEATURED TAGS</a></h5>
+    <div class="tags">
+        
+        
+        
+        
+        
+        
+                <a data-sort="0019" 
+                    href="/archive/?tag=%E8%A2%AB%E5%A4%B9"
+                    title="被夹"
+                    rel="10">被夹</a>
+        
+                <a data-sort="0021" 
+                    href="/archive/?tag=%E7%AE%97%E6%B3%95"
+                    title="算法"
+                    rel="8">算法</a>
+        
+                <a data-sort="0026" 
+                    href="/archive/?tag=c%2B%2B"
+                    title="c++"
+                    rel="3">c++</a>
+        
+                <a data-sort="0027" 
+                    href="/archive/?tag=%E6%84%9F%E6%82%9F"
+                    title="感悟"
+                    rel="2">感悟</a>
+    </div>
+</section>
+
+
+                <!-- Friends Blog -->
+                
+<hr>
+<h5>FRIENDS</h5>
+<ul class="list-inline">
+  
+  <li><a href="http://su.gallery/">Su</a></li>
+  
+</ul>
+
+            </div>
+        </div>
+    </div>
+</article>
+
+<!-- add support for mathjax by voleking-->
+
+
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "hux";
+    var disqus_identifier = "/2021/05/16/cpp-casts";
+    var disqus_url = "http://localhost:4000/2021/05/16/cpp-casts/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'right',
+          // icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <!-- SNS Link -->
+                
+
+
+<ul class="list-inline text-center">
+
+
+  
+  
+  
+  
+  
+  
+  
+</ul>
+
+                <p class="copyright text-muted">
+                    Copyright &copy; Fusha Blog 2022
+                    <br>
+                    Powered by <a href="http://techplorer.cn">Fusha Blog</a> |
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="100px"
+                        height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=huxpro&repo=huxpro.github.io&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<!-- Currently, only navbar scroll-down effect at desktop still depends on this -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+<!-- Simple Jekyll Search -->
+<script src="/js/simple-jekyll-search.min.js"></script>
+
+<!-- Service Worker -->
+
+<script src="/js/snackbar.js "></script>
+<script src="/js/sw-registration.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+        var d = document, t = 'script',
+            o = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        o.src = u;
+        if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+        s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+
+
+
+
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function () {
+        var $nav = document.querySelector("nav");
+        if ($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-49627206-1';
+    var _gaDomain = 'huangxuan.me';
+
+    // Originial
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog(selector) {
+
+        // interop with multilangual 
+        if ('' == 'true') {
+            _containerSelector = 'div.post-container.active'
+        } else {
+            _containerSelector = 'div.post-container'
+        }
+
+        // init
+        var P = $(_containerSelector), a, n, t, l, i, c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        // clean
+        $(selector).html('')
+
+        // appending
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#" + $(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+            l = $('<li class="' + n + '_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function (e) {
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+<!-- Multi-Lingual -->
+
+
+<!-- Simple Jekyll Search -->
+<script>
+    // https://stackoverflow.com/questions/1912501/unescape-html-entities-in-javascript
+    function htmlDecode(input) {
+        var e = document.createElement('textarea');
+        e.innerHTML = input;
+        // handle case of empty input
+        return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
+    }
+
+    SimpleJekyllSearch({
+        searchInput: document.getElementById('search-input'),
+        resultsContainer: document.getElementById('search-results'),
+        json: '/search.json',
+        searchResultTemplate: '<div class="post-preview item"><a href="{url}"><h2 class="post-title">{title}</h2><h3 class="post-subtitle">{subtitle}</h3><hr></a></div>',
+        noResultsText: 'No results',
+        limit: 50,
+        fuzzy: false,
+        // a hack to get escaped subtitle unescaped. for some reason, 
+        // post.subtitle w/o escape filter nuke entire search.
+        templateMiddleware: function (prop, value, template) {
+            if (prop === 'subtitle' || prop === 'title') {
+                if (value.indexOf("code")) {
+                    return htmlDecode(value);
+                } else {
+                    return value;
+                }
+            }
+        }
+    });
+
+    $(document).ready(function () {
+        var $searchPage = $('.search-page');
+        var $searchOpen = $('.search-icon');
+        var $searchClose = $('.search-icon-close');
+        var $searchInput = $('#search-input');
+        var $body = $('body');
+
+        $searchOpen.on('click', function (e) {
+            e.preventDefault();
+            $searchPage.toggleClass('search-active');
+            var prevClasses = $body.attr('class') || '';
+            setTimeout(function () {
+                $body.addClass('no-scroll');
+            }, 400)
+
+            if ($searchPage.hasClass('search-active')) {
+                $searchClose.on('click', function (e) {
+                    e.preventDefault();
+                    $searchPage.removeClass('search-active');
+                    $body.attr('class', prevClasses);  // from closure 
+                });
+                $searchInput.focus();
+            }
+        });
+    });
+</script>
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="description" content="这里是 周海军 的个人博客">
+    <meta name="keywords" content="周海军, Fusha, navy, @navy, 周海军的博客, Fusha Blog, 博客, 个人网站, 互联网, 后端, 设计">
+    <meta name="theme-color" content="#000000">
+
+    <!-- Open Graph -->
+    <meta property="og:title"
+        content="单词接龙的BFS算法实现 - 孚沙的博客 | Fusha Blog">
+    
+    <meta property="og:type" content="article">
+    <meta property="og:description" content="题目
+
+leetcode有一道单词接龙的题目，非常有意思，正好完美解释什么是BFS算法，原题是如下：
+
+
+  字典 wordList 中从单词 beginWord 和 endWord 的 转换序列 是一个按下述规格形成的序列：
+
+  序列中第一个单词是 beginWord 。
+
+  序列中最后一个单词是 endWord 。
+
+  每次转换只能改变一个字母。
+
+  转换过程中的中间单词必须是字...">
+    
+    <meta property="article:published_time" content=" 2021-08-16T05:00:00Z">
+    
+    
+    <meta property="article:author" content="zhouhaijun">
+    
+    
+    <meta property="article:tag" content="算法">
+    
+    
+    <meta property="og:image" content="http://localhost:4000">
+    <meta property="og:url" content="http://localhost:4000/2021/08/16/bfs-algorithm/">
+    <meta property="og:site_name" content="孚沙的博客 | Fusha Blog">
+
+    <title>单词接龙的BFS算法实现 - 孚沙的博客 | Fusha Blog</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="http://localhost:4000/2021/08/16/bfs-algorithm/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href=" /css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href=" /css/hux-blog.min.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet"
+        type="text/css">
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+
+    <!-- Google AdSense -->
+    <script data-ad-client="ca-pub-6487568398225121" async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top invert">
+    
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Fusha Blog</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div id="huxblog_navbar">
+                <div class="navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="/">Home</a>
+                        </li>
+                        
+                        
+                        
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                        
+                        
+                        <li>
+                            <a href="/archive/">Archive</a>
+                        </li>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <li class="search-icon">
+                            <a href="javascript:void(0)">
+                                <i class="fa fa-search"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <script>
+        // Drop Bootstarp low-performance Navbar
+        // Use customize navbar with high-quality material design animation
+        // in high-perf jank-free CSS3 implementation
+        var $body = document.body;
+        var $toggle = document.querySelector('.navbar-toggle');
+        var $navbar = document.querySelector('#huxblog_navbar');
+        var $collapse = document.querySelector('.navbar-collapse');
+
+        var __HuxNav__ = {
+            close: function () {
+                $navbar.className = " ";
+                // wait until animation end.
+                setTimeout(function () {
+                    // prevent frequently toggle
+                    if ($navbar.className.indexOf('in') < 0) {
+                        $collapse.style.height = "0px"
+                    }
+                }, 400)
+            },
+            open: function () {
+                $collapse.style.height = "auto"
+                $navbar.className += " in";
+            }
+        }
+
+        // Bind Event
+        $toggle.addEventListener('click', function (e) {
+            if ($navbar.className.indexOf('in') > 0) {
+                __HuxNav__.close()
+            } else {
+                __HuxNav__.open()
+            }
+        })
+
+        /**
+         * Since Fastclick is used to delegate 'touchstart' globally
+         * to hack 300ms delay in iOS by performing a fake 'click',
+         * Using 'e.stopPropagation' to stop 'touchstart' event from 
+         * $toggle/$collapse will break global delegation.
+         * 
+         * Instead, we use a 'e.target' filter to prevent handler
+         * added to document close HuxNav.  
+         *
+         * Also, we use 'click' instead of 'touchstart' as compromise
+         */
+        document.addEventListener('click', function (e) {
+            if (e.target == $toggle) return;
+            if (e.target.className == 'icon-bar') return;
+            __HuxNav__.close();
+        })
+    </script>
+    <!-- Search -->
+<div class="search-page">
+  <div class="search-icon-close-container">
+    <span class="search-icon-close">
+      <i class="fa fa-chevron-down"></i>
+    </span>
+  </div>
+  <div class="search-main container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <form></form>
+        <input type="text" id="search-input" placeholder="$ grep...">
+        </form>
+        <div id="search-results" class="mini-post-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/home-bg.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+
+
+
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/home-bg.jpg');
+        background: ;
+    }
+
+    
+</style>
+
+<header class="intro-header style-text" >
+
+    <div class="header-mask"></div>
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/archive/?tag=%E7%AE%97%E6%B3%95" title="算法">算法</a>
+                        
+                    </div>
+                    <h1>单词接龙的BFS算法实现</h1>
+                    
+                    <h2 class="subheading"></h2>
+                    <span class="meta">Posted by zhouhaijun on August 16, 2021</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <!-- Multi-Lingual -->
+                
+
+				<h3 id="题目">题目</h3>
+
+<p>leetcode有一道单词接龙的题目，非常有意思，正好完美解释什么是BFS算法，原题是如下：</p>
+
+<blockquote>
+  <p>字典 wordList 中从单词 beginWord 和 endWord 的 转换序列 是一个按下述规格形成的序列：</p>
+
+  <p>序列中第一个单词是 beginWord 。</p>
+
+  <p>序列中最后一个单词是 endWord 。</p>
+
+  <p>每次转换只能改变一个字母。</p>
+
+  <p>转换过程中的中间单词必须是字典 wordList 中的单词。</p>
+</blockquote>
+
+<blockquote>
+  <p>给你两个单词 beginWord 和 endWord 和一个字典 wordList ，找到从 beginWord 到 endWord 的 最短转换序列 中的 单词数目 。如果不存在这样的转换序列，返回 0。</p>
+</blockquote>
+
+<blockquote>
+
+</blockquote>
+
+<blockquote>
+  <p>示例 1：</p>
+</blockquote>
+
+<blockquote>
+
+</blockquote>
+
+<blockquote>
+  <p>输入：beginWord = “hit”, endWord = “cog”, wordList = [“hot”,”dot”,”dog”,”lot”,”log”,”cog”]</p>
+</blockquote>
+
+<blockquote>
+  <p>输出：5</p>
+</blockquote>
+
+<blockquote>
+  <p>解释：一个最短转换序列是 “hit” -&gt; “hot” -&gt; “dot” -&gt; “dog” -&gt; “cog”, 返回它的长度 5。</p>
+</blockquote>
+
+<blockquote>
+
+</blockquote>
+
+<blockquote>
+  <p>来源：力扣（LeetCode）</p>
+</blockquote>
+
+<blockquote>
+  <p>链接：https://leetcode-cn.com/problems/word-ladder</p>
+</blockquote>
+
+<blockquote>
+  <p>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+</blockquote>
+
+<p>这道题属于最短路径类题目，一般这类题目通常会想到dp和bfs，在这里的话，我们就考虑bfs。</p>
+
+<p>之前我在《深度与广度优先搜索代码模板》这篇文章里贴过bfs的代码模板，其实这道题是完全可以用模板套用的。</p>
+
+<p>按照题目的理解，我们可以把每个单词看成一个节点，那么所有节点之间的路径就组成了一个无向图，像下面这样(图摘自leetcode)：</p>
+
+<p><img src="/img/in-post/zhouhaijun-pic/dan-ci-jie-long.png" alt="" /></p>
+
+<p>而我们的任务就是在这个无向图中找到从起点到终点的最短距离，所以本质上这是一道无向图的bfs搜索题，而题目的难点就在于如何找到一个节点对应的其他节点，也就是类似下面的代码：</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">node</span><span class="o">-&gt;</span><span class="n">children</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">todo</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">children</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+        <span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>其实想到了就挺简单的，我们的节点是一个字符串，那么只要对字符串中的每一个字符做’a’-‘z’的穷举，满足条件即可认为是有效的节点，把这点相通了，代码就好写了。</p>
+
+<h3 id="求解方法一bfs">求解方法一(bfs)</h3>
+
+<p>代码里增加注释了，可直接阅读源码。</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+</pre></td><td class="rouge-code"><pre><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="kt">int</span> <span class="n">dfs</span><span class="p">(</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">beginWord</span><span class="p">,</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">endWord</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;&amp;</span> <span class="n">wordList</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// 为加快检索速度，这里用哈希表替换vector</span>
+        <span class="n">unordered_set</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">dict</span><span class="p">(</span><span class="n">wordList</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">wordList</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
+
+        <span class="c1">// 异常分支处理，如果不存在这样的解，则直接返回0</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">dict</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">endWord</span><span class="p">)</span> <span class="o">==</span> <span class="n">dict</span><span class="p">.</span><span class="n">end</span><span class="p">())</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="n">queue</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">todo</span><span class="p">;</span> <span class="c1">// 记录待访问的节点</span>
+        <span class="n">unordered_set</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">visited</span><span class="p">;</span> <span class="c1">// 标记数组，用于存储已经遍历过的节点</span>
+        <span class="n">todo</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">beginWord</span><span class="p">);</span>
+        <span class="kt">int</span> <span class="n">ladder</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// 记录求解的值</span>
+
+        <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">todo</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">QLevelLen</span> <span class="o">=</span> <span class="n">todo</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="c1">// 记录这一层的所有节点数，然后挨个遍历节点</span>
+            <span class="o">++</span> <span class="n">ladder</span><span class="p">;</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">QLevelLen</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">string</span> <span class="n">node</span> <span class="o">=</span> <span class="n">todo</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
+                <span class="n">todo</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+
+                <span class="k">if</span> <span class="p">(</span><span class="n">node</span> <span class="o">==</span> <span class="n">endWord</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">return</span> <span class="n">ladder</span><span class="p">;</span> <span class="c1">//找到了最后一个节点，返回计算结果</span>
+                <span class="p">}</span>
+
+                <span class="k">if</span> <span class="p">(</span><span class="n">visited</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="o">!=</span> <span class="n">visited</span><span class="p">.</span><span class="n">end</span><span class="p">())</span> <span class="p">{</span>
+                    <span class="k">continue</span><span class="p">;</span> <span class="c1">// 已经访问这个节点，跳过</span>
+                <span class="p">}</span>
+                <span class="n">visited</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">node</span><span class="p">);</span> <span class="c1">// 对已经访问的节点做一下标记</span>
+                
+                <span class="c1">// 寻找相邻的其他节点，也就是找到下一层的所有节点，并放到队列里</span>
+                <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">node</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="kt">char</span> <span class="n">ch</span> <span class="o">=</span> <span class="n">node</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+                    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="mi">26</span><span class="p">;</span> <span class="o">++</span><span class="n">k</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="n">node</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'a'</span> <span class="o">+</span> <span class="n">k</span><span class="p">;</span>
+
+                        <span class="c1">// 如果在dict里查找到对应元素，表明找到了要遍历的下一个节点，放到队列里</span>
+                        <span class="k">if</span> <span class="p">(</span><span class="n">dict</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="o">!=</span> <span class="n">dict</span><span class="p">.</span><span class="n">end</span><span class="p">())</span> <span class="p">{</span>
+                            <span class="n">todo</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">node</span><span class="p">);</span>
+                        <span class="p">}</span>
+                    <span class="p">}</span>
+                    <span class="n">node</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ch</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+
+        <span class="p">}</span>
+        <span class="c1">// 遍历所有节点，没有找到解，返回0，其实这里的代码不会执行的，因为在函数头已经做过异常处理</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kt">int</span> <span class="n">ladderLength</span><span class="p">(</span><span class="n">string</span> <span class="n">beginWord</span><span class="p">,</span> <span class="n">string</span> <span class="n">endWord</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;&amp;</span> <span class="n">wordList</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">dfs</span><span class="p">(</span><span class="n">beginWord</span><span class="p">,</span> <span class="n">endWord</span><span class="p">,</span> <span class="n">wordList</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="求解方法二双向bfs">求解方法二(双向bfs)</h3>
+
+<p>上述的bfs本质上是一种暴力搜索，那其实还有一种优化的方案，即双向bfs：</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+</pre></td><td class="rouge-code"><pre><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="kt">int</span> <span class="n">dfs</span><span class="p">(</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">beginWord</span><span class="p">,</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">endWord</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;&amp;</span> <span class="n">wordList</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">unordered_set</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">dict</span><span class="p">(</span><span class="n">wordList</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">wordList</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">dict</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">endWord</span><span class="p">)</span> <span class="o">==</span> <span class="n">dict</span><span class="p">.</span><span class="n">end</span><span class="p">())</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">queue</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">head</span><span class="p">;</span>
+        <span class="n">queue</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">tail</span><span class="p">;</span>
+        <span class="n">unordered_set</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">headVisited</span><span class="p">;</span>
+        <span class="n">unordered_set</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">tailVisited</span><span class="p">;</span>
+        <span class="n">head</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">beginWord</span><span class="p">);</span>
+        <span class="n">tail</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">endWord</span><span class="p">);</span>
+
+        <span class="kt">int</span> <span class="n">ladder</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+        <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">head</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">tail</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+            <span class="c1">// 每次遍历，都从head和tail中挑选元素少的队列，这样可以可能尽可能的少计算</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">head</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">tail</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> <span class="p">{</span>
+                <span class="n">swap</span><span class="p">(</span><span class="n">head</span><span class="p">,</span> <span class="n">tail</span><span class="p">);</span>
+                <span class="n">swap</span><span class="p">(</span><span class="n">headVisited</span><span class="p">,</span> <span class="n">tailVisited</span><span class="p">);</span>
+            <span class="p">}</span>
+
+            <span class="kt">int</span> <span class="n">QLevelLen</span> <span class="o">=</span> <span class="n">head</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">QLevelLen</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">string</span> <span class="n">node</span> <span class="o">=</span> <span class="n">head</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
+                <span class="n">head</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+
+                <span class="c1">// 表示两个队列的访问在该节点相遇，得到了问题的解</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">tailVisited</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="o">!=</span> <span class="n">tailVisited</span><span class="p">.</span><span class="n">end</span><span class="p">())</span> <span class="p">{</span>
+                    <span class="k">return</span> <span class="n">ladder</span><span class="p">;</span>
+                <span class="p">}</span>
+
+                <span class="k">if</span> <span class="p">(</span><span class="n">headVisited</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="o">!=</span> <span class="n">headVisited</span><span class="p">.</span><span class="n">end</span><span class="p">())</span> <span class="p">{</span>
+                    <span class="k">continue</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="n">headVisited</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">node</span><span class="p">);</span>
+
+                <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">node</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="kt">char</span> <span class="n">ch</span> <span class="o">=</span> <span class="n">node</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+                    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="mi">26</span><span class="p">;</span> <span class="o">++</span><span class="n">k</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="n">node</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'a'</span> <span class="o">+</span> <span class="n">k</span><span class="p">;</span>
+                        <span class="k">if</span> <span class="p">(</span><span class="n">dict</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="o">!=</span> <span class="n">dict</span><span class="p">.</span><span class="n">end</span><span class="p">())</span> <span class="p">{</span>
+                            <span class="n">head</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">node</span><span class="p">);</span>
+                        <span class="p">}</span>
+                    <span class="p">}</span>
+                    <span class="n">node</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">ch</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="c1">// 这里为什么要把ladder加一的操作放在这里呢？是因为出口在上面两队列相遇的地方</span>
+            <span class="o">++</span> <span class="n">ladder</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kt">int</span> <span class="n">ladderLength</span><span class="p">(</span><span class="n">string</span> <span class="n">beginWord</span><span class="p">,</span> <span class="n">string</span> <span class="n">endWord</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;&amp;</span> <span class="n">wordList</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">dfs</span><span class="p">(</span><span class="n">beginWord</span><span class="p">,</span> <span class="n">endWord</span><span class="p">,</span> <span class="n">wordList</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>为什么双向bfs会比单向bfs快呢？这里用网友的一张图即可说明：</p>
+
+<p><img src="/img/in-post/zhouhaijun-pic/double-bfs.png" alt="" /></p>
+
+<p>因为双向bfs的搜索空间比单向bfs的小，也就意味者我们在访问时速度会更快一点，但是有一点需要注意一下，如果我们能确定从起点到终点一定有解的话，那么双向bfs会更快一点，否则双向bfs就变成单向bfs了。</p>
+
+<h3 id="双向bfs代码模板">双向bfs代码模板</h3>
+
+<p>经过上述分析，我们基本可以得出双向bfs的代码模板了：</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+</pre></td><td class="rouge-code"><pre><span class="kt">void</span> <span class="nf">bfs</span><span class="p">(</span><span class="n">Node</span><span class="o">*</span> <span class="n">start</span><span class="p">,</span> <span class="n">Node</span><span class="o">*</span> <span class="n">end</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">start</span> <span class="o">||</span> <span class="o">!</span><span class="n">end</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">queue</span><span class="o">&lt;</span><span class="n">Node</span><span class="o">*&gt;</span> <span class="n">head</span><span class="p">;</span>
+    <span class="n">queue</span><span class="o">&lt;</span><span class="n">Node</span><span class="o">*&gt;</span> <span class="n">tail</span><span class="p">;</span>
+    <span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">headVisited</span><span class="p">;</span>
+    <span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">tailVisited</span><span class="p">;</span>
+    <span class="n">head</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">start</span><span class="p">);</span>
+    <span class="n">tail</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">end</span><span class="p">);</span>
+
+    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">head</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">tail</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+        <span class="c1">//  make sure head is the shortest size queue</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">head</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">tail</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> <span class="p">{</span>
+            <span class="n">swap</span><span class="p">(</span><span class="n">head</span><span class="p">,</span> <span class="n">tail</span><span class="p">);</span>
+            <span class="n">swap</span><span class="p">(</span><span class="n">headVisited</span><span class="p">,</span> <span class="n">tailVisited</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="kt">int</span> <span class="n">QLevelLen</span> <span class="o">=</span> <span class="n">head</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">QLevelLen</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            
+            <span class="n">Node</span><span class="o">*</span> <span class="n">node</span> <span class="o">=</span> <span class="n">head</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
+            <span class="n">head</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">tailVisited</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="o">!=</span> <span class="n">tailVisited</span><span class="p">.</span><span class="n">end</span><span class="p">())</span> <span class="p">{</span>
+                <span class="c1">//  find solution</span>
+                <span class="k">return</span><span class="p">;</span>
+            <span class="p">}</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">headVisited</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">)</span> <span class="o">!=</span> <span class="n">headVisited</span><span class="p">.</span><span class="n">end</span><span class="p">())</span> <span class="p">{</span>
+                <span class="k">continue</span><span class="p">;</span> <span class="c1">// already visited, skip the node</span>
+            <span class="p">}</span>
+            <span class="n">headVisited</span><span class="p">[</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">// mark the node after being visited</span>
+            
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">node</span><span class="o">-&gt;</span><span class="n">children</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">todo</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">children</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span> <span class="c1">// add the next visited nodes</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="总结">总结</h3>
+
+<p>单词接龙这道题我刷了不下5遍，因为我觉得这道题是能看到bfs算法本质的一道题，多刷几遍，确实会加深理解。</p>
+
+
+                <hr style="visibility: hidden;">
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2021/08/09/disjoint-set/" data-toggle="tooltip" data-placement="top" title="并查集">
+                        Previous<br>
+                        <span>并查集</span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2021/09/04/quicksort-merge-heap/" data-toggle="tooltip" data-placement="top" title="快速排序、归并排序、堆排序">
+                        Next<br>
+                        <span>快速排序、归并排序、堆排序</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <hr style="visibility: hidden;">
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+                
+            </div>  
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+
+<section>
+    
+        <hr class="hidden-sm hidden-xs">
+    
+    <h5><a href="/archive/">FEATURED TAGS</a></h5>
+    <div class="tags">
+        
+        
+        
+        
+        
+        
+                <a data-sort="0019" 
+                    href="/archive/?tag=%E8%A2%AB%E5%A4%B9"
+                    title="被夹"
+                    rel="10">被夹</a>
+        
+                <a data-sort="0021" 
+                    href="/archive/?tag=%E7%AE%97%E6%B3%95"
+                    title="算法"
+                    rel="8">算法</a>
+        
+                <a data-sort="0026" 
+                    href="/archive/?tag=c%2B%2B"
+                    title="c++"
+                    rel="3">c++</a>
+        
+                <a data-sort="0027" 
+                    href="/archive/?tag=%E6%84%9F%E6%82%9F"
+                    title="感悟"
+                    rel="2">感悟</a>
+    </div>
+</section>
+
+
+                <!-- Friends Blog -->
+                
+<hr>
+<h5>FRIENDS</h5>
+<ul class="list-inline">
+  
+  <li><a href="http://su.gallery/">Su</a></li>
+  
+</ul>
+
+            </div>
+        </div>
+    </div>
+</article>
+
+<!-- add support for mathjax by voleking-->
+
+
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "hux";
+    var disqus_identifier = "/2021/08/16/bfs-algorithm";
+    var disqus_url = "http://localhost:4000/2021/08/16/bfs-algorithm/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'right',
+          // icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <!-- SNS Link -->
+                
+
+
+<ul class="list-inline text-center">
+
+
+  
+  
+  
+  
+  
+  
+  
+</ul>
+
+                <p class="copyright text-muted">
+                    Copyright &copy; Fusha Blog 2022
+                    <br>
+                    Powered by <a href="http://techplorer.cn">Fusha Blog</a> |
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="100px"
+                        height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=huxpro&repo=huxpro.github.io&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<!-- Currently, only navbar scroll-down effect at desktop still depends on this -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+<!-- Simple Jekyll Search -->
+<script src="/js/simple-jekyll-search.min.js"></script>
+
+<!-- Service Worker -->
+
+<script src="/js/snackbar.js "></script>
+<script src="/js/sw-registration.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+        var d = document, t = 'script',
+            o = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        o.src = u;
+        if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+        s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+
+
+
+
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function () {
+        var $nav = document.querySelector("nav");
+        if ($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-49627206-1';
+    var _gaDomain = 'huangxuan.me';
+
+    // Originial
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog(selector) {
+
+        // interop with multilangual 
+        if ('' == 'true') {
+            _containerSelector = 'div.post-container.active'
+        } else {
+            _containerSelector = 'div.post-container'
+        }
+
+        // init
+        var P = $(_containerSelector), a, n, t, l, i, c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        // clean
+        $(selector).html('')
+
+        // appending
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#" + $(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+            l = $('<li class="' + n + '_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function (e) {
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+<!-- Multi-Lingual -->
+
+
+<!-- Simple Jekyll Search -->
+<script>
+    // https://stackoverflow.com/questions/1912501/unescape-html-entities-in-javascript
+    function htmlDecode(input) {
+        var e = document.createElement('textarea');
+        e.innerHTML = input;
+        // handle case of empty input
+        return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
+    }
+
+    SimpleJekyllSearch({
+        searchInput: document.getElementById('search-input'),
+        resultsContainer: document.getElementById('search-results'),
+        json: '/search.json',
+        searchResultTemplate: '<div class="post-preview item"><a href="{url}"><h2 class="post-title">{title}</h2><h3 class="post-subtitle">{subtitle}</h3><hr></a></div>',
+        noResultsText: 'No results',
+        limit: 50,
+        fuzzy: false,
+        // a hack to get escaped subtitle unescaped. for some reason, 
+        // post.subtitle w/o escape filter nuke entire search.
+        templateMiddleware: function (prop, value, template) {
+            if (prop === 'subtitle' || prop === 'title') {
+                if (value.indexOf("code")) {
+                    return htmlDecode(value);
+                } else {
+                    return value;
+                }
+            }
+        }
+    });
+
+    $(document).ready(function () {
+        var $searchPage = $('.search-page');
+        var $searchOpen = $('.search-icon');
+        var $searchClose = $('.search-icon-close');
+        var $searchInput = $('#search-input');
+        var $body = $('body');
+
+        $searchOpen.on('click', function (e) {
+            e.preventDefault();
+            $searchPage.toggleClass('search-active');
+            var prevClasses = $body.attr('class') || '';
+            setTimeout(function () {
+                $body.addClass('no-scroll');
+            }, 400)
+
+            if ($searchPage.hasClass('search-active')) {
+                $searchClose.on('click', function (e) {
+                    e.preventDefault();
+                    $searchPage.removeClass('search-active');
+                    $body.attr('class', prevClasses);  // from closure 
+                });
+                $searchInput.focus();
+            }
+        });
+    });
+</script>
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

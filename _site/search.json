@@ -1,0 +1,235 @@
+[
+  
+    {
+      "title"    : "关于从事编程工作的思考(一)",
+      "subtitle" : "",
+      "tags"     : "感悟",
+      "url"      : "/2021/10/20/thinking-about-programing/",
+      "date"     : "2021-10-20 05:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "内存对齐",
+      "subtitle" : "memory alignment",
+      "tags"     : "内存对齐",
+      "url"      : "/2021/10/16/memory-alignment/",
+      "date"     : "2021-10-16 05:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "深度与广度优先搜索代码模板",
+      "subtitle" : "",
+      "tags"     : "算法, 搜索",
+      "url"      : "/2021/09/20/dfs-vs-bfs/",
+      "date"     : "2021-09-20 05:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "性能调优(一)系统负载",
+      "subtitle" : "",
+      "tags"     : "性能",
+      "url"      : "/2021/09/17/perf-optimal-about-system-load/",
+      "date"     : "2021-09-17 05:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "快速排序、归并排序、堆排序",
+      "subtitle" : "",
+      "tags"     : "算法, 排序",
+      "url"      : "/2021/09/04/quicksort-merge-heap/",
+      "date"     : "2021-09-04 05:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "单词接龙的BFS算法实现",
+      "subtitle" : "",
+      "tags"     : "算法",
+      "url"      : "/2021/08/16/bfs-algorithm/",
+      "date"     : "2021-08-16 05:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "并查集",
+      "subtitle" : "C++ template rules",
+      "tags"     : "算法",
+      "url"      : "/2021/08/09/disjoint-set/",
+      "date"     : "2021-08-09 05:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "c++11特性：右值引用、移动语义、完美转发",
+      "subtitle" : "C++ rvalue reference vs move semantic",
+      "tags"     : "c++",
+      "url"      : "/2021/08/03/cpp-rvalue-reference/",
+      "date"     : "2021-08-03 04:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "二叉堆",
+      "subtitle" : "heap",
+      "tags"     : "算法",
+      "url"      : "/2021/07/16/binary-heap/",
+      "date"     : "2021-07-16 05:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "二分查找代码模板",
+      "subtitle" : "binary search",
+      "tags"     : "算法",
+      "url"      : "/2021/07/09/binary-search/",
+      "date"     : "2021-07-09 05:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "C++ lambda应用场景",
+      "subtitle" : "C++ lambda",
+      "tags"     : "被夹",
+      "url"      : "/2021/07/03/cpp-lambda/",
+      "date"     : "2021-07-03 05:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "java哈希表源码剖析",
+      "subtitle" : "java hash",
+      "tags"     : "被夹",
+      "url"      : "/2021/06/29/java-hash/",
+      "date"     : "2021-06-29 04:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "go异常错误处理",
+      "subtitle" : "go errors",
+      "tags"     : "被夹",
+      "url"      : "/2021/06/19/go-errors/",
+      "date"     : "2021-06-19 05:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "计算机为什么要原码、反码及补码",
+      "subtitle" : "",
+      "tags"     : "被夹",
+      "url"      : "/2021/06/17/computer-complement-code/",
+      "date"     : "2021-06-17 05:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "go并发编程(1)：waitgroup和context",
+      "subtitle" : "waitgroup and context",
+      "tags"     : "go",
+      "url"      : "/2021/06/11/go-waitgroup-context/",
+      "date"     : "2021-06-11 05:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "对cpu cache的理解",
+      "subtitle" : "cpu cache",
+      "tags"     : "系统编程",
+      "url"      : "/2021/06/03/cpu-cache/",
+      "date"     : "2021-06-03 05:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "C++ cast操作符",
+      "subtitle" : "C++ casts",
+      "tags"     : "c++",
+      "url"      : "/2021/05/16/cpp-casts/",
+      "date"     : "2021-05-16 05:30:00 +0800"
+    } ,
+  
+    {
+      "title"    : "爬楼梯问题的几种算法实现",
+      "subtitle" : "",
+      "tags"     : "算法",
+      "url"      : "/2021/05/12/climb-stair-algorithm/",
+      "date"     : "2021-05-12 05:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "C++模板类型推导规则",
+      "subtitle" : "C++ template rules",
+      "tags"     : "c++, 模板",
+      "url"      : "/2021/05/12/cpp-template-rules/",
+      "date"     : "2021-05-12 05:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "英文学习",
+      "subtitle" : "learning English",
+      "tags"     : "感悟",
+      "url"      : "/2021/04/11/3-years-learninng-english/",
+      "date"     : "2021-04-11 20:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "一个gdb问题引发的思考",
+      "subtitle" : "thinking about gdb",
+      "tags"     : "被夹",
+      "url"      : "/2021/04/06/thingking-about-gdb/",
+      "date"     : "2021-04-06 03:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "Trie的算法实现",
+      "subtitle" : "Trie algorithm ",
+      "tags"     : "算法",
+      "url"      : "/2021/04/05/Trie-algorithm/",
+      "date"     : "2021-04-05 20:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "C++ RVO的理解",
+      "subtitle" : "C++ RVO",
+      "tags"     : "被夹",
+      "url"      : "/2021/03/20/cpp-rvo/",
+      "date"     : "2021-03-20 20:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "对不明确的需求说NO",
+      "subtitle" : "",
+      "tags"     : "被夹",
+      "url"      : "/2021/03/17/talk-about-requirement/",
+      "date"     : "2021-03-17 05:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "C++继承",
+      "subtitle" : "C++ public vs private inherit",
+      "tags"     : "被夹",
+      "url"      : "/2021/03/10/cpp-inherit/",
+      "date"     : "2021-03-10 20:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "centos下的docker代理配置",
+      "subtitle" : "centos docker setting ",
+      "tags"     : "被夹",
+      "url"      : "/2021/03/04/centos-docker-setting/",
+      "date"     : "2021-03-04 04:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "组合优于继承",
+      "subtitle" : "",
+      "tags"     : "编程思想",
+      "url"      : "/2021/02/21/composition-vs-inherit/",
+      "date"     : "2021-02-21 05:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "搭建yum源手记",
+      "subtitle" : "",
+      "tags"     : "被夹",
+      "url"      : "/2021/02/20/build-yum/",
+      "date"     : "2021-02-20 05:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "面向对象三大特性",
+      "subtitle" : "",
+      "tags"     : "编程范式",
+      "url"      : "/2021/02/18/oop-features/",
+      "date"     : "2021-02-18 05:00:00 +0800"
+    } 
+  
+]
