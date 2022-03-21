@@ -5,9 +5,32 @@
     <description>这里是 周海军 的个人博客</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 20 Mar 2022 16:31:35 +0800</pubDate>
-    <lastBuildDate>Sun, 20 Mar 2022 16:31:35 +0800</lastBuildDate>
+    <pubDate>Mon, 21 Mar 2022 08:18:01 +0800</pubDate>
+    <lastBuildDate>Mon, 21 Mar 2022 08:18:01 +0800</lastBuildDate>
     <generator>Jekyll v4.2.2</generator>
+    
+      <item>
+        <title>认知篇(抓重点的能力)</title>
+        <description>&lt;p&gt;来阿里有一段时间了，在这里感受最深的一点，就是要抓重点，“方向比努力更重要”，总结下来，有这么几点感受：
+第一、如果方向跑偏了，再用力只会越偏越远
+	在阿里每天要做的事很多，如果一开始的方向就偏离了，注定结局不太好。比方说近期的一个目标是在一周内将产品或某个模块性能提升50倍，借助工具你会发现性能的优化点可能很多，而你的目标就是要找出耗时最大的逻辑来优化，对一些影响不太大的逻辑优先级放低。嗯，说了这么多，也许听起来就是一句废话，哈哈。&lt;/p&gt;
+
+&lt;p&gt;第二、大目标拆小目标
+	这和计算机里的递归很相似，我们拿到了一个目标，确定了大方向，之后就是对目标做进一步的拆解，比方说，我们要在两周内将一个产品上线、完成切流，有了这个大方向后，我们将大目标拆成一个个的小目标，这时需要注意了，并非所有的目标都是关键性目标。还是那句话，“抓住主要矛盾”，时刻提醒自己，哪些才是关键目标，对于那些没有明显决定性效果的可以放低优先级。怎么说呢，好像又是一句废话，哈哈，简单总结一句：大目标拆解也要遵循二八原则。&lt;/p&gt;
+
+&lt;p&gt;第三、多动脑子、灵活变通
+	“计划赶不上变化”，再完美的计划，落到实践上也会有一定的落差，在工作当中，一定要学会变通，思路要清晰，脑子要灵活，不能一根筋，遇到有阻塞的人、事或计划，一定要想法解决。&lt;/p&gt;
+
+&lt;p&gt;其实都是一些很通俗的道理，所谓知行合一，真正的从工作中吸取教训，从教训中总结经验啊。&lt;/p&gt;
+</description>
+        <pubDate>Fri, 11 Mar 2022 05:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2022/03/11/take-priority/</link>
+        <guid isPermaLink="true">http://localhost:4000/2022/03/11/take-priority/</guid>
+        
+        <category>感悟</category>
+        
+        
+      </item>
     
       <item>
         <title>关于从事编程工作的思考(一)</title>
@@ -2094,115 +2117,6 @@
         <pubDate>Fri, 16 Jul 2021 05:00:00 +0800</pubDate>
         <link>http://localhost:4000/2021/07/16/binary-heap/</link>
         <guid isPermaLink="true">http://localhost:4000/2021/07/16/binary-heap/</guid>
-        
-        <category>算法</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>二分查找代码模板</title>
-        <description>&lt;p&gt;二分查找是一种用于在有序数组里查找对应元素的算法。&lt;/p&gt;
-
-&lt;h3 id=&quot;二分查找与dfs和bfs搜索的区别&quot;&gt;二分查找与dfs和bfs搜索的区别&lt;/h3&gt;
-
-&lt;p&gt;搜索可以认为是对整个空间对一种搜索，但是查找类的算法，比如说二分查找，它不一定会对整个空间做搜索，根据数据的有序性，结合具体的算法，能优化数据查询的时间和空间复杂度。&lt;/p&gt;
-
-&lt;h3 id=&quot;二分查找算法分析&quot;&gt;二分查找算法分析&lt;/h3&gt;
-
-&lt;h4 id=&quot;满足一下三个条件&quot;&gt;满足一下三个条件：&lt;/h4&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;函数具备单调性(单调递增或单调递减)&lt;/li&gt;
-  &lt;li&gt;函数是有界&lt;/li&gt;
-  &lt;li&gt;具备随机访问的特性&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;前面2条可以总结为单调有界，第三条是方便计算机的程序处理。&lt;/p&gt;
-
-&lt;h4 id=&quot;复杂度&quot;&gt;复杂度&lt;/h4&gt;
-
-&lt;p&gt;二分查找相比暴力查找而言，速度的确是快了等级，时间复杂度是o(logn)，其中n是数组的长度，空间复杂度一般是o(1)。&lt;/p&gt;
-
-&lt;h4 id=&quot;具体的算法过程&quot;&gt;具体的算法过程&lt;/h4&gt;
-
-&lt;p&gt;这个算法不难，下面的这个图可以形象的描述一下具体的过程：从两边向中间收敛的这么一种状态。
-&lt;img src=&quot;/img/in-post/zhouhaijun-pic/binary_search_1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;假设要查找的数据不在数组里，那么遍历的最后一个状态是Low=High=Mid，这是一个细节，在写代码的时候需要注意下。&lt;/p&gt;
-
-&lt;h3 id=&quot;代码模板&quot;&gt;代码模板&lt;/h3&gt;
-
-&lt;div class=&quot;language-c++ highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;binarySearch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;left&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;left&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;left&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;right&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        		&lt;span class=&quot;c1&quot;&gt;// 出口1:找到了元素，返回数组下标&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;left&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    
-    &lt;span class=&quot;c1&quot;&gt;// 出口2: 没找到元素，返回-1&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;有两处细节需要注意一下：&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;有两个出口&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;两个出口都在上述代码模板做了标记&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;向上或向下取整&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;向上取整，一般是通过上述代码的出口2最终返回左边界；如果是向下取整，是通过出口2返回右边界。&lt;/p&gt;
-
-&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
-
-&lt;p&gt;在单调有界的数组里查找元素，用二分查找算法是一种很明智的选择，相比于暴力查找而言在时间复杂度上降低了一个等级，常见的有：求一个数的平方根、在一个有序或部分有序数组里查找元素等。&lt;/p&gt;
-
-&lt;h3 id=&quot;leetcode题目&quot;&gt;leetcode题目&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://leetcode-cn.com/problems/search-in-rotated-sorted-array/&quot;&gt;搜索旋转排序数组&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://leetcode-cn.com/problems/sqrtx/&quot;&gt;x的平方根&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://leetcode-cn.com/problems/search-a-2d-matrix/&quot;&gt;搜索二维矩阵&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/&quot;&gt;搜索旋转排序数组中的最小值&lt;/a&gt;&lt;/p&gt;
-
-</description>
-        <pubDate>Fri, 09 Jul 2021 05:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2021/07/09/binary-search/</link>
-        <guid isPermaLink="true">http://localhost:4000/2021/07/09/binary-search/</guid>
         
         <category>算法</category>
         
