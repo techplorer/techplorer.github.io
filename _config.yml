@@ -59,10 +59,10 @@ kramdown:
 
 
 # Disqus settings
-disqus_username: hux
+#disqus_username: hux
 
 # Netease settings
-netease_comment: false
+#netease_comment: false
 
 
 
@@ -103,7 +103,7 @@ page-mathjax: false
 # Friends
 friends: [
     {
-         title: "Su",
-         href: "http://su.gallery/"
+#         title: "Su",
+#         href: "http://su.gallery/"
      }
 ]
