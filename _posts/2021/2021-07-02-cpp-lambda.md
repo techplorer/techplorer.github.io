@@ -7,7 +7,7 @@ author:   "zhouhaijun"
 catalog: false
 header-style: text
 tags:
- - 被夹
+ - c++
 ---
 
 lambda，也叫closure，是自c++ 11之后引进的新语法，它的定义以及用法网上的资料很多，这里主要结合自己的理解谈一下c++ lambda这种语法背后的应用场景。

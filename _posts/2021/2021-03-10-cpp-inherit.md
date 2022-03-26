@@ -7,7 +7,7 @@ author:     "zhouhaijun"
 catalog: false
 header-style: text
 tags:
-  - 被夹
+  - 编程思想
 ---
 
 ### 公共继承与私有继承
