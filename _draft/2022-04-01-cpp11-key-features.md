@@ -1,19 +1,14 @@
-
-
-
-
+---
 layout:   post
-title:   "搭建yum源手记"
-subtitle:  ""
-date:    2021-02-19 21:00:00
+title:   "c++11的关键特性"
+subtitle:  "c++11 key features"
+date:    2022-04-01 21:00:00
 author:   "zhouhaijun"
 catalog: false
 header-style: text
 tags:
-
- - 
-
-
+ - c++
+---
 
 #### 内存问题怎么解决
 

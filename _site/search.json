@@ -83,7 +83,7 @@
     {
       "title"    : "C++ lambda应用场景",
       "subtitle" : "C++ lambda",
-      "tags"     : "被夹",
+      "tags"     : "c++",
       "url"      : "/2021/07/03/cpp-lambda/",
       "date"     : "2021-07-03 05:00:00 +0800"
     } ,
@@ -91,7 +91,7 @@
     {
       "title"    : "java哈希表源码剖析",
       "subtitle" : "java hash",
-      "tags"     : "被夹",
+      "tags"     : "算法",
       "url"      : "/2021/06/29/java-hash/",
       "date"     : "2021-06-29 04:00:00 +0800"
     } ,
@@ -99,7 +99,7 @@
     {
       "title"    : "go异常错误处理",
       "subtitle" : "go errors",
-      "tags"     : "被夹",
+      "tags"     : "go",
       "url"      : "/2021/06/19/go-errors/",
       "date"     : "2021-06-19 05:00:00 +0800"
     } ,
@@ -179,7 +179,7 @@
     {
       "title"    : "C++ RVO的理解",
       "subtitle" : "C++ RVO",
-      "tags"     : "被夹",
+      "tags"     : "c++",
       "url"      : "/2021/03/20/cpp-rvo/",
       "date"     : "2021-03-20 20:00:00 +0800"
     } ,
@@ -195,7 +195,7 @@
     {
       "title"    : "C++继承",
       "subtitle" : "C++ public vs private inherit",
-      "tags"     : "被夹",
+      "tags"     : "编程思想",
       "url"      : "/2021/03/10/cpp-inherit/",
       "date"     : "2021-03-10 20:00:00 +0800"
     } ,
