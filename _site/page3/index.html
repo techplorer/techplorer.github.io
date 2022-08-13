@@ -236,6 +236,52 @@
       col-xs-12 postlist-container">
       
 <div class="post-preview">
+    <a href="/2021/05/16/cpp-casts/">
+        <h2 class="post-title">
+            C++ cast操作符
+        </h2>
+        
+        <h3 class="post-subtitle">
+            C++ casts
+        </h3>
+        
+        <div class="post-content-preview">
+            
+                c++里支持四种cast操作符，它们分别是：
+
+
+  const_cast
+  reinterpret_cast
+  static_cast
+  dynamic_cast
+
+
+const_cast
+
+const_cast是用于去除指针或引用的const属性，且该指针或引用指向的是非const变量(这一点非常重要)，比如下面的这段代码:
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+   ...
+            
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by zhouhaijun on May 16, 2021
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
     <a href="/2021/05/12/climb-stair-algorithm/">
         <h2 class="post-title">
             爬楼梯问题的几种算法实现
@@ -521,39 +567,6 @@ docker版本拉取到最新，不然容易踩坑，比如我今天用1.13.1的do
 </div>
 <hr>
 
-<div class="post-preview">
-    <a href="/2021/02/21/composition-vs-inherit/">
-        <h2 class="post-title">
-            组合优于继承
-        </h2>
-        
-        <h3 class="post-subtitle">
-            
-        </h3>
-        
-        <div class="post-content-preview">
-            
-                业务场景
-
-有一个业务模块Fetcher，它的功能是获取视频流和图片数据，支持的协议有rtsp、http，同时也要支持一些消息中间件(如kafka、zeromq等)。
-
-解决方案一(继承)
-
-我们先来分析一下，怎么实现这个功能：
-
-
-  首先，我们会在Fetcher这个模块里定义一个接口FetchData
-  其次，我们会让不同实现层继承Fetcher这个接口
-  最后，在不同的实现层实现F...
-            
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by zhouhaijun on February 21, 2021
-    </p>
-</div>
-<hr>
-
 
 <!-- Pager -->
 
@@ -589,32 +602,32 @@ docker版本拉取到最新，不然容易踩坑，比如我今天用1.13.1的do
         
         
         
-                <a data-sort="0027" 
+                <a data-sort="0028" 
                     href="/archive/?tag=%E8%A2%AB%E5%A4%B9"
                     title="被夹"
                     rel="5">被夹</a>
         
-                <a data-sort="0023" 
+                <a data-sort="0024" 
                     href="/archive/?tag=%E7%AE%97%E6%B3%95"
                     title="算法"
                     rel="9">算法</a>
         
-                <a data-sort="0027" 
+                <a data-sort="0028" 
                     href="/archive/?tag=c%2B%2B"
                     title="c++"
                     rel="5">c++</a>
         
-                <a data-sort="0028" 
+                <a data-sort="0029" 
                     href="/archive/?tag=%E6%84%9F%E6%82%9F"
                     title="感悟"
                     rel="4">感悟</a>
         
-                <a data-sort="0030" 
+                <a data-sort="0031" 
                     href="/archive/?tag=%E7%BC%96%E7%A8%8B%E6%80%9D%E6%83%B3"
                     title="编程思想"
                     rel="2">编程思想</a>
         
-                <a data-sort="0030" 
+                <a data-sort="0031" 
                     href="/archive/?tag=go"
                     title="go"
                     rel="2">go</a>
