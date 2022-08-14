@@ -12,13 +12,13 @@ tags:
 
 
 
-#### 背景交代
+### 背景交代
 
 前几天在工作上遇到一个浮点数除零的问题，暴露了自己知识点的不足，这里整理一下吧。
 
 浮点数除0会不会有异常呢？要回答这个问题，我们需要拆分成几个知识点。
 
-#### 浮点数在计算机怎么存储
+### 浮点数在计算机怎么存储
 有关浮点数在计算机的存储，IEEE754标准对此做了说明：
 
 ![](/img/in-post/zhouhaijun-pic/2022/float-ieee754.png)
@@ -64,7 +64,7 @@ tags:
 
 
 
-#### 浮点数定义:0/INF/NAN
+### 浮点数定义:0/INF/NAN
 IEEE754里对0/INF/NAN分别做了定义：
 
 ![](/img/in-post/zhouhaijun-pic/2022/float-def-nan-inf.png)
@@ -78,7 +78,7 @@ IEEE754里对0/INF/NAN分别做了定义：
 
 
 
-#### 浮点数除零
+### 浮点数除零
 整数除0是会引发错误，但是浮点数除0却不是一个错误，为什么IEEE 754里要这么规定呢？这里官方也给出了一个解释：
 
 ![](/img/in-post/zhouhaijun-pic/2022/float-divide-by-zero.png)
@@ -95,7 +95,7 @@ float c = -1.0 / 0.0;  // -inf
 
 
 
-#### 参考资料
+### 参考资料
 
 - [IEEE 754标准](http://mathcenter.oxford.emory.edu/site/cs170/ieee754/)
 

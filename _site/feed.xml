@@ -5,19 +5,19 @@
     <description>这里是 周海军 的个人博客</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 14 Aug 2022 07:52:56 +0800</pubDate>
-    <lastBuildDate>Sun, 14 Aug 2022 07:52:56 +0800</lastBuildDate>
+    <pubDate>Sun, 14 Aug 2022 12:09:51 +0800</pubDate>
+    <lastBuildDate>Sun, 14 Aug 2022 12:09:51 +0800</lastBuildDate>
     <generator>Jekyll v4.2.2</generator>
     
       <item>
         <title>浮点数除零</title>
-        <description>&lt;h4 id=&quot;背景交代&quot;&gt;背景交代&lt;/h4&gt;
+        <description>&lt;h3 id=&quot;背景交代&quot;&gt;背景交代&lt;/h3&gt;
 
 &lt;p&gt;前几天在工作上遇到一个浮点数除零的问题，暴露了自己知识点的不足，这里整理一下吧。&lt;/p&gt;
 
 &lt;p&gt;浮点数除0会不会有异常呢？要回答这个问题，我们需要拆分成几个知识点。&lt;/p&gt;
 
-&lt;h4 id=&quot;浮点数在计算机怎么存储&quot;&gt;浮点数在计算机怎么存储&lt;/h4&gt;
+&lt;h3 id=&quot;浮点数在计算机怎么存储&quot;&gt;浮点数在计算机怎么存储&lt;/h3&gt;
 &lt;p&gt;有关浮点数在计算机的存储，IEEE754标准对此做了说明：&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/img/in-post/zhouhaijun-pic/2022/float-ieee754.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
@@ -76,7 +76,7 @@
 
 &lt;p&gt;因为是正数，符号位为0；指数是5，5+127=132=1111010；小数部分，因为科学记数法的整数一定是大于0的，所以2进制下直接记录小数部分即可，在这里就是11101001&lt;/p&gt;
 
-&lt;h4 id=&quot;浮点数定义0infnan&quot;&gt;浮点数定义:0/INF/NAN&lt;/h4&gt;
+&lt;h3 id=&quot;浮点数定义0infnan&quot;&gt;浮点数定义:0/INF/NAN&lt;/h3&gt;
 &lt;p&gt;IEEE754里对0/INF/NAN分别做了定义：&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/img/in-post/zhouhaijun-pic/2022/float-def-nan-inf.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
@@ -90,7 +90,7 @@
 另外，这里需要注意的是，当遇到浮点数除0、负数求平方根的情况下，结果就是NAN。&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&quot;浮点数除零&quot;&gt;浮点数除零&lt;/h4&gt;
+&lt;h3 id=&quot;浮点数除零&quot;&gt;浮点数除零&lt;/h3&gt;
 &lt;p&gt;整数除0是会引发错误，但是浮点数除0却不是一个错误，为什么IEEE 754里要这么规定呢？这里官方也给出了一个解释：&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/img/in-post/zhouhaijun-pic/2022/float-divide-by-zero.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
@@ -107,7 +107,7 @@ float c = 1.0 / 0.0;   // inf
 float c = -1.0 / 0.0;  // -inf
 &lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h4 id=&quot;参考资料&quot;&gt;参考资料&lt;/h4&gt;
+&lt;h3 id=&quot;参考资料&quot;&gt;参考资料&lt;/h3&gt;
 
 &lt;ul&gt;
   &lt;li&gt;
@@ -134,10 +134,10 @@ float c = -1.0 / 0.0;  // -inf
         <title>性能优化常见方法(1)</title>
         <description>&lt;p&gt;做性能优化也有方法论，如下几个步骤：&lt;/p&gt;
 
-&lt;h4 id=&quot;建立性能测试基准&quot;&gt;建立性能测试基准&lt;/h4&gt;
+&lt;h3 id=&quot;建立性能测试基准&quot;&gt;建立性能测试基准&lt;/h3&gt;
 &lt;p&gt;当你着手准备做性能优化工作之前，第一件事是建立性能测试的基准，为了后面的一系列优化定一个基准测试值。&lt;/p&gt;
 
-&lt;h4 id=&quot;找到性能瓶颈点&quot;&gt;找到性能瓶颈点&lt;/h4&gt;
+&lt;h3 id=&quot;找到性能瓶颈点&quot;&gt;找到性能瓶颈点&lt;/h3&gt;
 &lt;p&gt;借助工具，比如vtune或者perf，量化每个阶段的耗时，从而快速找到性能热点。
 首先不能依赖自己的直觉或者经验，因为现代软件都是很复杂的，从cpu硬件、编译器、编程语言、各种软件框架，内部的细节实在太复杂，我们自以为是的经验或者直觉往往可能与现实背道而驰。所以我们做性能优化时，一定要有数据支撑，避免在反向优化的道路上越走越远。
 这里有几个小工具挺好用的：&lt;/p&gt;
@@ -160,7 +160,7 @@ float c = -1.0 / 0.0;  // -inf
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&quot;问题描述和抽象&quot;&gt;问题描述和抽象&lt;/h4&gt;
+&lt;h3 id=&quot;问题描述和抽象&quot;&gt;问题描述和抽象&lt;/h3&gt;
 &lt;p&gt;通过第二步，借助工具，已经可以找到性能热点了，下一步就是对问题进行描述、归纳总结和问题抽象。
 举个例子来说:&lt;/p&gt;
 
@@ -200,7 +200,7 @@ float c = -1.0 / 0.0;  // -inf
 
 &lt;p&gt;比如说我们这里的查找过程：传一个string对象，然后在table里通过二分查找，依次与表里的元素做比对，遍历完整个表。&lt;/p&gt;
 
-&lt;h4 id=&quot;问题拆解算法数据结构&quot;&gt;问题拆解：算法、数据结构&lt;/h4&gt;
+&lt;h3 id=&quot;问题拆解算法数据结构&quot;&gt;问题拆解：算法、数据结构&lt;/h3&gt;
 &lt;p&gt;有了上述到数据和问题分析，我们再进一步思考：&lt;/p&gt;
 
 &lt;ul&gt;
@@ -218,7 +218,7 @@ float c = -1.0 / 0.0;  // -inf
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&quot;性能测试&quot;&gt;性能测试&lt;/h4&gt;
+&lt;h3 id=&quot;性能测试&quot;&gt;性能测试&lt;/h3&gt;
 &lt;p&gt;最后一步，基于上述的修改，做性能测试，与第一步的基准测试做比较，观察性能优化是否有正向的效果。&lt;/p&gt;
 
 &lt;p&gt;做性能优化也有方法论，自顶向下，一层层的拆解开来，跟计算机的递归程序一模一样。&lt;/p&gt;
@@ -236,15 +236,15 @@ float c = -1.0 / 0.0;  // -inf
         <title>关于做好一件事的思考</title>
         <description>&lt;p&gt;关于做好一件事，其实我总结了一下，无非就是几个核心因素：&lt;/p&gt;
 
-&lt;h4 id=&quot;正确的做事方法&quot;&gt;正确的做事方法&lt;/h4&gt;
+&lt;h3 id=&quot;正确的做事方法&quot;&gt;正确的做事方法&lt;/h3&gt;
 &lt;p&gt;不管是通过网络、别人传授、还是自己总结开悟，总之一定要先找到正确的方法。
 正确的方法可以提效，往往可以事半功倍，如果方法不对，就是事倍功半。道理就是这个道理，浅显易懂。&lt;/p&gt;
 
-&lt;h4 id=&quot;总结思考和沉淀&quot;&gt;总结思考和沉淀&lt;/h4&gt;
+&lt;h3 id=&quot;总结思考和沉淀&quot;&gt;总结思考和沉淀&lt;/h3&gt;
 &lt;p&gt;在阿里这边，我听到的最多的就是“要思考、要总结、要沉淀”，这一点上我认为是对的。
 如果不总结不沉淀，就没法形成自己的一套思考体系，那么下次遇到类似的问题、人、事上，就没办法复用之前的经验，可能还是在做一部分无用功，会走弯路。&lt;/p&gt;
 
-&lt;h4 id=&quot;实战&quot;&gt;实战&lt;/h4&gt;
+&lt;h3 id=&quot;实战&quot;&gt;实战&lt;/h3&gt;
 &lt;p&gt;剩下的就是在事中练，其实道理都很简单，往往到了这一步，靠的就是自驱能力。
 我觉得总结一句话，就是用高标准的去要求自己：&lt;/p&gt;
 
