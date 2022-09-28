@@ -236,6 +236,33 @@
       col-xs-12 postlist-container">
       
 <div class="post-preview">
+    <a href="/2021/06/03/cpu-cache/">
+        <h2 class="post-title">
+            对cpu cache的理解
+        </h2>
+        
+        <h3 class="post-subtitle">
+            cpu cache
+        </h3>
+        
+        <div class="post-content-preview">
+            
+                为什么需要缓存
+
+现如今大部分的cpu cache都是hierarchy的结构，一般cpu内部会有三级缓存：L1/L2/L3，当cpu访问一个内存地址时，会先从L1缓存中查找，如果没有命中则从L2查找，如果还是没有命中继续去L3查找，如果都没有命中则访问内存，访问的速度依次是L1&gt;L2&gt;L3&gt;Memory。
+
+
+那么到底cpu访问cache和memory的速度差异有多少，这...
+            
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by zhouhaijun on June 3, 2021
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
     <a href="/2021/05/16/cpp-casts/">
         <h2 class="post-title">
             C++ cast操作符
@@ -541,32 +568,6 @@ Trie，也叫prefix tree，即前缀树或者字典树，一般是用于字符�
 </div>
 <hr>
 
-<div class="post-preview">
-    <a href="/2021/03/04/centos-docker-setting/">
-        <h2 class="post-title">
-            centos下的docker代理配置
-        </h2>
-        
-        <h3 class="post-subtitle">
-            centos docker setting 
-        </h3>
-        
-        <div class="post-content-preview">
-            
-                这几天频繁的给同事分配虚拟机、装系统、安装软件，涉及docker的代理配置。因为我们的工作机所在的网络与互联网是隔开的，所以要想让后台的服务器联网，需要走代理。但每次配置时都得用一下搜索引擎，比较繁琐，这里就简单记录一下基本的命令，方便后续配置操作的查找。
-
-docker版本拉到最新
-
-docker版本拉取到最新，不然容易踩坑，比如我今天用1.13.1的docker版本，当配置完代理后，使用...
-            
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by zhouhaijun on March 4, 2021
-    </p>
-</div>
-<hr>
-
 
 <!-- Pager -->
 
@@ -602,32 +603,32 @@ docker版本拉取到最新，不然容易踩坑，比如我今天用1.13.1的do
         
         
         
-                <a data-sort="0028" 
+                <a data-sort="0029" 
                     href="/archive/?tag=%E8%A2%AB%E5%A4%B9"
                     title="被夹"
                     rel="5">被夹</a>
         
-                <a data-sort="0024" 
+                <a data-sort="0025" 
                     href="/archive/?tag=%E7%AE%97%E6%B3%95"
                     title="算法"
                     rel="9">算法</a>
         
-                <a data-sort="0028" 
+                <a data-sort="0029" 
                     href="/archive/?tag=c%2B%2B"
                     title="c++"
                     rel="5">c++</a>
         
-                <a data-sort="0029" 
+                <a data-sort="0030" 
                     href="/archive/?tag=%E6%84%9F%E6%82%9F"
                     title="感悟"
                     rel="4">感悟</a>
         
-                <a data-sort="0031" 
+                <a data-sort="0032" 
                     href="/archive/?tag=%E7%BC%96%E7%A8%8B%E6%80%9D%E6%83%B3"
                     title="编程思想"
                     rel="2">编程思想</a>
         
-                <a data-sort="0031" 
+                <a data-sort="0032" 
                     href="/archive/?tag=go"
                     title="go"
                     rel="2">go</a>
