@@ -5,8 +5,8 @@
     <description>这里是 周海军 的个人博客</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 19 Oct 2022 07:32:41 +0800</pubDate>
-    <lastBuildDate>Wed, 19 Oct 2022 07:32:41 +0800</lastBuildDate>
+    <pubDate>Wed, 19 Oct 2022 07:47:29 +0800</pubDate>
+    <lastBuildDate>Wed, 19 Oct 2022 07:47:29 +0800</lastBuildDate>
     <generator>Jekyll v4.2.2</generator>
     
       <item>
@@ -18,15 +18,21 @@
 &lt;h3 id=&quot;类的内存排列&quot;&gt;类的内存排列&lt;/h3&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;类数据结构排列
-实际的的内存排列会因编译器有区别，这里只突出关键点:&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;类数据结构排列&lt;/p&gt;
+
+    &lt;p&gt;实际的的内存排列会因编译器有区别，这里只突出关键点:&lt;/p&gt;
+  &lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;&lt;img src=&quot;/img/in-post/zhouhaijun-pic/2022/cc-memory-layout.jpeg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;测试代码
-为方便描述，放一段测试代码：&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;测试代码&lt;/p&gt;
+
+    &lt;p&gt;为方便描述，放一段测试代码：&lt;/p&gt;
+  &lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;div class=&quot;language-c++ highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
@@ -228,8 +234,12 @@
       </item>
     
       <item>
-        <title>入职阿里1年总结</title>
-        <description>&lt;p&gt;入职阿里快满1年了，前段时间和leader交流了一下，这一年的工作经历、成长与不足，交流中有一些心得体会，总结记录一下：&lt;/p&gt;
+        <title>让进步每天发生</title>
+        <description>&lt;p&gt;阿里人有句话，”让进步每天发生”，也算是老话术了，哈哈，其实仔细想想，还是有那么点道理的。&lt;/p&gt;
+
+&lt;p&gt;从我现在的认知来看，如果想要成为一名合格的工程师，起码要具备三种能力，即快速的学习能力、深度思考问题的能力、很强的工程实践能力。这三种能力的习得也非一朝一夕的事，需要勤奋、坚持和刻意练习。&lt;/p&gt;
+
+&lt;p&gt;正好下个月入职阿里快满1年了，前段时间和leader交流了一下，这一年的工作经历、成长与不足，交流中有一些心得体会，这里也总结记录一下。&lt;/p&gt;
 
 &lt;h3 id=&quot;总结思考刻意练习&quot;&gt;总结、思考、刻意练习&lt;/h3&gt;
 
@@ -239,7 +249,7 @@
 
     &lt;p&gt;这一点上，自己做的还可以，平时工作中不管遇到大问题还是小问题，都会及时写文档总结记录。&lt;/p&gt;
 
-    &lt;p&gt;对我来说，写文档最大的好处在于梳理知识点，自己是不是真懂还是似懂非懂，写个文档就清楚，写不出来或者有卡壳，就说明有盲点，需要回炉重造，从头再来。&lt;/p&gt;
+    &lt;p&gt;对我来说，写文档最大的好处在于梳理知识点，尝试用写文档的方式写出自己的理解，如果写不出来或者有卡壳，说明中间环节遇到盲区，这个时候抓住关键点，再需要回炉重造一遍，反复迭代。&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;多思考&lt;/p&gt;
